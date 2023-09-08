@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EquipmentsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Equipments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Owner_Id" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="300" />
+    <Property Name="Price" Type="money" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Category_Id" Type="int" />
+    <Property Name="OfferType_Id" Type="int" />
+    <Property Name="Cancellation" Type="bit" />
+    <Property Name="Image" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="OfferTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OfferType" Type="nvarchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="RentalRequests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Equipment_Id" Type="int" />
+    <Property Name="RequestDate" Type="datetime" />
+    <Property Name="RentalStartDate" Type="date" />
+    <Property Name="RentalEndDate" Type="date" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="TotalPrice" Type="money" />
+    <Property Name="Receipt" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequestStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SaleTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Equipment_Id" Type="int" />
+    <Property Name="TransactionDate" Type="datetime" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="TotalPrice" Type="money" />
+    <Property Name="Receipt" Type="nvarchar" MaxLength="50" />
+    <Property Name="RequestStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="70" Nullable="false" />
+    <Property Name="PhoneNumber" Type="int" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="Role_Id" Type="int" />
+    <Property Name="IdCard" Type="nvarchar" MaxLength="50" />
+    <Property Name="Block" Type="bit" />
+  </EntityType>
+  <Association Name="FK_Equipments_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+    <End Role="Equipments" Type="Self.Equipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Equipments">
+        <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Equipments_OfferTypes">
+    <End Role="OfferTypes" Type="Self.OfferTypes" Multiplicity="0..1" />
+    <End Role="Equipments" Type="Self.Equipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OfferTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Equipments">
+        <PropertyRef Name="OfferType_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Equipments_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Equipments" Type="Self.Equipments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Equipments">
+        <PropertyRef Name="Owner_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RentalRequests_Equipments">
+    <End Role="Equipments" Type="Self.Equipments" Multiplicity="0..1" />
+    <End Role="RentalRequests" Type="Self.RentalRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RentalRequests">
+        <PropertyRef Name="Equipment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RentalRequests_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="RentalRequests" Type="Self.RentalRequests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RentalRequests">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleTransactions_Equipments">
+    <End Role="Equipments" Type="Self.Equipments" Multiplicity="0..1" />
+    <End Role="SaleTransactions" Type="Self.SaleTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleTransactions">
+        <PropertyRef Name="Equipment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleTransactions_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="SaleTransactions" Type="Self.SaleTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleTransactions">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Role_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EquipmentsDBModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipments" EntityType="Self.Equipments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OfferTypes" EntityType="Self.OfferTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RentalRequests" EntityType="Self.RentalRequests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleTransactions" EntityType="Self.SaleTransactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Equipments_Categories" Association="Self.FK_Equipments_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Equipments" EntitySet="Equipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Equipments_OfferTypes" Association="Self.FK_Equipments_OfferTypes">
+      <End Role="OfferTypes" EntitySet="OfferTypes" />
+      <End Role="Equipments" EntitySet="Equipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Equipments_Users" Association="Self.FK_Equipments_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Equipments" EntitySet="Equipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RentalRequests_Equipments" Association="Self.FK_RentalRequests_Equipments">
+      <End Role="Equipments" EntitySet="Equipments" />
+      <End Role="RentalRequests" EntitySet="RentalRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RentalRequests_Users" Association="Self.FK_RentalRequests_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="RentalRequests" EntitySet="RentalRequests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleTransactions_Equipments" Association="Self.FK_SaleTransactions_Equipments">
+      <End Role="Equipments" EntitySet="Equipments" />
+      <End Role="SaleTransactions" EntitySet="SaleTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleTransactions_Users" Association="Self.FK_SaleTransactions_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="SaleTransactions" EntitySet="SaleTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

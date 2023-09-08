@@ -1,0 +1,89 @@
+﻿@model EquipmentApp.Models.RentalRequest
+
+@{
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  
+    <!-- Staer Order-Details Page -->
+    <div class="order-details-page">
+        <div class="dots dots-up">
+
+        </div>
+        <div class="dots dots-down">
+
+        </div>
+        <div class="details-box">
+            <div class="image-order">
+                <img src="~/Uploads/@Html.DisplayFor(model => model.Equipment.Image)" alt="">
+            </div>
+            <div class="details-content">
+                <h3>تفاصيل الطلب</h3>
+                <h3></h3>
+                <div class="right-content">اسم المعدة :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.Equipment.Name)</div>
+
+                <div class="right-content">مقدم الطلب :</div>
+                <div class="left-content">
+                    @Html.DisplayFor(model => model.User.UserName)
+                </div>
+
+                <div class="right-content">مالك المعدة</div>
+                <div class="left-content">@Html.DisplayFor(model => model.Equipment.User.UserName)</div>
+
+                <div class="right-content">الكمية :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.Quantity)</div>
+
+                <div class="right-content">تاريخ بدء الحجز :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.RentalStartDate)</div>
+
+                <div class="right-content">تاريخ إنتهاء الحجز :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.RentalEndDate)</div>
+
+                <div class="right-content">السعر الإجمالي :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.TotalPrice) ر.ي / اليوم</div>
+
+                <div class="right-content">تاريخ الطلب :</div>
+                <div class="left-content">@Html.DisplayFor(model => model.RequestDate)</div>
+
+                <div class="right-content">حالة الطلب :</div>
+
+
+                @if (Model.RequestStatus == null)
+                {
+                    <div class="left-content">
+                        لم يتم الرد
+                    </div>
+                }
+                else
+                {
+                    <div class="left-content">
+                        مقبول
+                    </div>
+                }
+
+                <div class="right-content"> الايصال :</div>
+                @if (Model.Receipt != null)
+                {
+                    <div class="left-content">
+                        <a class="pdf-button" href="~/Uploads/@Html.DisplayFor(model => model.Receipt)" target="_blank"><i class="far fa-file-pdf"></i>فتح الملف</a>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Order-Details Page -->
+  
+    <script>
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-6').classList.add('activ');
+        }
+    </script>
+</body>
+</html>

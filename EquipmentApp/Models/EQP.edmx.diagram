@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b5bf2c1f1776449683a92a2f770faaf0" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="EquipmentsDBModel.Category" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.Equipment" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.OfferType" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.RentalRequest" Width="1.5" PointX="10.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.Role" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.SaleTransaction" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EquipmentsDBModel.User" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_Equipments_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_Equipments_OfferTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_Equipments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_RentalRequests_Equipments" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_SaleTransactions_Equipments" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_RentalRequests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="EquipmentsDBModel.FK_SaleTransactions_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

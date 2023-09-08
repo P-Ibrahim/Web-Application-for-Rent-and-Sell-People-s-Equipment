@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @*<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.8.3.js"></script>
+        <link href="~/Content/normalize.css" rel="stylesheet" />
+        <link href="~/Content/styles.css" rel="stylesheet" />
+        <link href="~/Content/all.min.css" rel="stylesheet" />*@
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moadat</title>
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+
+    <!-- normalize file -->
+
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <!-- style file -->
+
+    <link href="~/Content/MainStyle.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Start Header -->
+    <div class="header" id="header">
+        <div class="container">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <img src="~/imgs/logo.png" />
+                </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                       
+                        <ul>
+                            <li id="megamenu-link">
+                                <i class="fas fa-caret-down"></i>
+                                <a href="#" target="_parent">@User.Identity.Name</a>
+                                <div class="mega-menu">
+                                    <ul class="links">
+                                        @if (!User.IsInRole("Admin"))
+                                        {
+                                            <li>
+                                                <a href="~/Users/profile?id=@User.Identity.Name">
+                                                    <i class="far fa-user-circle"></i>
+                                                    معلوماتي
+                                                </a>
+                                            </li>
+                                        }
+
+                                        <li>
+                                            <a href="~/Users/Logout">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                                تسجيل الخروج
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                
+            </div>
+            
+
+            <ul class="main-nav">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li >@Html.ActionLink("تقارير البيع", "AllReports", "SaleTransactions")</li>
+                        <li >@Html.ActionLink("تقارير الإيجار", "AllReports", "RentalRequests")</li>
+                        <li class="link-9">@Html.ActionLink("المسخدمين", "Index", "Users")</li>
+                    }
+                    else
+                    {
+                        <li class="link-7">@Html.ActionLink("طلبات البيع", "IndexForCustomer", "SaleTransactions")</li>
+                        <li class="link-6">@Html.ActionLink("طلبات الايجار", "IndexForCustomer", "RentalRequests")</li>
+                        <li class="link-5">@Html.ActionLink("عروضي", "IndexForCustomer", "Equipments")</li>
+                    }
+
+
+
+                }
+                else
+                {
+                    <li class="link-4">@Html.ActionLink("تسجيل", "Singup", "Users")</li>
+                    <li class="link-3">@Html.ActionLink("دخول", "Login", "Users")</li>
+                }
+
+                <li class="link-2">@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                <li class="link-1">@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- End Header -->
+
+
+
+
+
+    <div class="">
+        @RenderBody()
+
+    </div>
+
+    <!-- Start Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="box">
+                <a href="#">
+                    <img src="~//imgs/footer-logo02.png" alt="">
+                </a>
+            </div>
+            <div class="box">
+                <ul class="links">
+                    <li>@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+                    <li>@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                    <li>@Html.ActionLink("من نحن", "About", "Equipments")</li>
+                    
+
+                </ul>
+            </div>
+            <div class="box">
+                <div class="line">
+                    <i class="fas fa-map-marker-alt fa-fw"></i>
+                    <div class="info">اليمن ، حضرموت ، المكلا</div>
+                </div>
+                <div class="line">
+                    <i class="far fa-clock fa-fw"></i>
+                    <div class="info">ساعات العمل/ 8:00 ص - 8:00 م</div>
+                </div>
+                <div class="line">
+                    <i class="fas fa-phone-volume fa-fw"></i>
+                    <div class="info">
+                        <span>+967715432990</span>
+                        <span>+967775831252</span>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <p class="footer-text">معدات كوم تجعل تأجير و بيع المعدات والأدوات في متناول الجميع بشكل سهل وبسعر رخيص لكل من يرغب في إنجاز اعمالة و مشاريعة. يربط موقعنا مالكي المعدات مع أصحاب الاعمال بما في ذلك شركات  والأفراد ودور التأجير.</p>
+                <ul class="social">
+                    <li>
+                        <a href="#" class="facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright">
+            جميع الحقوق محفوظة <a href="index.html">لمعدات كوم</a>  &copy; 2023
+        </p>
+    </div>
+    <!-- End Footer -->
+
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

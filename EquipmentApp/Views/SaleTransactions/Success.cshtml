@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moadat</title>
+    <link href="~/Content/MainStyle.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+    <!-- start success-transaction page -->
+    <div class="display-block-page">
+        <div class="confirm-block-box success-transaction">
+            <h2>
+                <i class="far fa-check-circle"></i>
+                تمت العملية بنجاح
+            </h2>
+            <p>
+                <span>عزيزي العميل :</span>
+                لتاكيد الطلب الرجاء إيداع المبلغ لدى حسابنا المصرفي :
+            </p>
+            <p>
+                <span>حساب شركة العمقي : </span>
+                254154855
+            </p>
+            <div class="note">
+                <span>ملاحظة :</span>
+                الرجاء السرعة في الايداع وارسال الايصال لتاكيد الطلب من خلال قسم طلبات البيع
+                <a href="~/SaleTransactions/IndexForCustomer">مـن هنــا</a>
+            </div>
+            <button type="submit" onclick="window.location.href='~/Equipments/Index'">
+                <i class="far fa-arrow-alt-circle-left"></i>
+                العودة الى الفئات
+            </button>
+
+        </div>
+    </div>
+    <!-- end success-transaction page -->
+</body>
+</html>

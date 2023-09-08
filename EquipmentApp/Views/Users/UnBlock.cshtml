@@ -1,0 +1,141 @@
+﻿@model EquipmentApp.Models.User
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moadat</title>
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+    @*normalize file*@
+
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    @*style file*@
+
+
+<link href="~/Content/MainStyle.css" rel="stylesheet" />
+    @*Font Awesome*@
+
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    @*Google font*@
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- End Header -->
+    <!-- Start Header -->
+    <div class="header" id="header">
+        <div class="container">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <img src="~/imgs/logo.png" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <ul>
+                        <li id="megamenu-link">
+                            <i class="fas fa-caret-down"></i>
+                            <a href="#" target="_parent">@User.Identity.Name</a>
+                            <div class="mega-menu">
+                                <ul class="links">
+                                    @if (!User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="~/Users/profile?id=@User.Identity.Name">
+                                                <i class="far fa-user-circle"></i>
+                                                معلوماتي
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <a href="~/Users/Logout">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            تسجيل الخروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+
+            <ul class="main-nav">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("تقارير البيع", "AllReports", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("تقارير الإيجار", "AllReports", "RentalRequests")</li>
+                        <li class="activ">@Html.ActionLink("المسخدمين", "Index", "Users")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("طلبات البيع", "IndexForCustomer", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("طلبات الايجار", "IndexForCustomer", "RentalRequests")</li>
+                        <li>@Html.ActionLink("عروضي", "IndexForCustomer", "Equipments")</li>
+                    }
+
+
+
+                }
+                else
+                {
+                    <li>@Html.ActionLink("تسجيل", "Singup", "Users")</li>
+                    <li>@Html.ActionLink("دخول", "Login", "Users")</li>
+                }
+
+                <li>@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                <li>@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- End Header -->
+    <!-- start confirm-block page -->
+    <div class="display-block-page">
+        <div class="confirm-block-box">
+            <h2 class="unblock-header">إلغاء حظر الحساب</h2>
+            <h4>هل انت متأكد من إلغاء حظر هذا الحساب؟</h4>
+            <div class="user-infor">
+                <h5>اسم الحساب</h5>
+                <p>@Html.DisplayFor(model => model.UserName)</p>
+            </div>
+            <div class="user-infor">
+                <h5>رقم الجوال</h5>
+                <p>@Html.DisplayFor(model => model.PhoneNumber)</p>
+            </div>
+            <div class="user-infor">
+                <h5>العنوان</h5>
+                <p>@Html.DisplayFor(model => model.Address)</p>
+            </div>
+            <div class="confirm-buttons">
+                <form action="UnBlock?id=@Model.Id" method="post">
+                    <button type="submit" class="unblock-button">
+                        <i class="far fa-check-circle"></i>
+                        رفع الحظر
+                    </button>
+                </form>
+
+                <button onclick="window.location.href='blockedUsers'">
+                    <i class="far fa-arrow-alt-circle-left"></i>
+                    العودة للخلف
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- end confirm-block page -->
+</body>
+</html>

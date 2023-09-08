@@ -1,0 +1,165 @@
+﻿@model IEnumerable<EquipmentApp.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moadat</title>
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+    @*normalize file*@
+
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    @*style file*@
+
+
+<link href="~/Content/MainStyle.css" rel="stylesheet" />
+    @*Font Awesome*@
+
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    @*Google font*@
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- End Header -->
+    <!-- Start Header -->
+    <div class="header" id="header">
+        <div class="container">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <img src="~/imgs/logo.png" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <ul>
+                        <li id="megamenu-link">
+                            <i class="fas fa-caret-down"></i>
+                            <a href="#" target="_parent">@User.Identity.Name</a>
+                            <div class="mega-menu">
+                                <ul class="links">
+                                    @if (!User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="~/Users/profile?id=@User.Identity.Name">
+                                                <i class="far fa-user-circle"></i>
+                                                معلوماتي
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <a href="~/Users/Logout">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            تسجيل الخروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+
+            <ul class="main-nav">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("تقارير البيع", "AllReports", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("تقارير الإيجار", "AllReports", "RentalRequests")</li>
+                        <li class="activ">@Html.ActionLink("المسخدمين", "Index", "Users")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("طلبات البيع", "IndexForCustomer", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("طلبات الايجار", "IndexForCustomer", "RentalRequests")</li>
+                        <li>@Html.ActionLink("عروضي", "IndexForCustomer", "Equipments")</li>
+                    }
+
+
+
+                }
+                else
+                {
+                    <li>@Html.ActionLink("تسجيل", "Singup", "Users")</li>
+                    <li>@Html.ActionLink("دخول", "Login", "Users")</li>
+                }
+
+                <li>@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                <li>@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- End Header -->
+    <!-- Start display-users page -->
+    <div class="display-page">
+        <div class="display-users">
+            <div class="top-users">
+                <h2>حسابات المستخدمين</h2>
+                <form action="Index" method="post" class="search-div">
+                    <input type="search" value="" placeholder="اسم المستخدم" name="searchtext">
+                    <input type="submit" value=" بحث">
+                </form>
+                <div class="top-buttons">
+                    <a href="blockedUsers" class="usersblock-button">الحسابات المحظورة</a>
+                    <a href="Create" class="additem-button">إضافة حساب</a>
+                </div>
+
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>اسم المستخدم</td>
+                        <td>رقم الجوال</td>
+                        <td>العنوان</td>
+                        <td>صورة الهوية</td>
+                        
+                        <td>حظر الحساب</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Block != true&&item.Role.Name!="Admin")
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                <td>
+                                    <a class="pdf-button" href="~/Uploads/@Html.DisplayFor(modelItem => item.IdCard)" target="_blank"><i class="far fa-file-pdf"></i>فتح الملف</a>
+                                </td>
+                               
+                                <td>
+                                    <button class="delete-button" type="button" onclick="window.location.href='Delete?id=@item.Id'">
+                                        <i class="fas fa-user-slash"></i>
+                                        حظر
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End display-users page -->
+</body>
+</html>
+
+

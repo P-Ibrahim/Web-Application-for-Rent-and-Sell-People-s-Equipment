@@ -1,0 +1,150 @@
+﻿@model IEnumerable<EquipmentApp.Models.SaleTransaction>
+
+@{
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    
+    <!-- Start reports-page -->
+    <div class="reports-page">
+        <div class="reports-box">
+            <div class="top-reports">
+                <div class="page-title" id="repotrt-title">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>التقارير</h2>
+                </div>
+                <div class="button-box button-reports">
+                    <div id="btn-order"></div>
+                    <button type="button" class="toggle-btn" onclick="exportbox()">الصادر</button>
+                    <button type="button" class="toggle-btn" onclick="importbox()">الوارد</button>
+                </div>
+            </div>
+            <!-- تقارير صادرة -->
+            <div class="reports-export" id="export">
+                <table id="table-export">
+                    <caption>تقرير الطلبات الصادرة</caption>
+                    <thead>
+                        <tr>
+                            <td>مالك المعدة</td>
+                            <td>اسم المنتج</td>
+
+                            <td>نوع الطلب</td>
+                            <td>تاريخ الطلب</td>
+                            
+                            <td>الكمية</td>
+
+                            <td>السعر</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            if (User.Identity.Name == item.User.UserName && item.Receipt != null)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Equipment.User.UserName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Equipment.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Equipment.OfferType.OfferType1)</td>
+
+                                    <td>@Html.DisplayFor(modelItem => item.TransactionDate)</td>
+                                   
+                                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+
+                                    <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">اجمالي المبالغ للطلبات الصادرة</td>
+                            <td>@ViewData["count1"]</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- تقارير واردة -->
+            <div class="reports-import" id="import" style="display: none;">
+                <table id="table-export">
+                    <caption>تقرير الطلبات الواردة</caption>
+                    <thead>
+                        <tr>
+                            <td>مقدم الطلب</td>
+                            <td>اسم المنتج</td>
+
+                            <td>نوع الطلب</td>
+                            <td>تاريخ الطلب</td>
+                          
+                            <td>الكمية</td>
+
+                            <td>السعر</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            if (User.Identity.Name == item.Equipment.User.UserName && item.Receipt != null)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Equipment.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Equipment.OfferType.OfferType1)</td>
+
+                                    <td>@Html.DisplayFor(modelItem => item.TransactionDate)</td>
+                                    
+                                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+
+                                    <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">اجمالي المبالغ للطلبات الواردة</td>
+                            <td>@ViewData["count2"]</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End reports-page -->
+   
+    <script>
+        var x = document.getElementById('export');
+        var y = document.getElementById('import');
+        var z = document.getElementById('btn-order');
+        var n = document.getElementById('repotrt-title');
+
+        function importbox() {
+            // x.style.left = "-400px";
+            // y.style.left = "50px";
+            x.style.display = "none";
+            y.style.display = "block";
+            z.style.left = "144px";
+            z.style.backgroundColor = "#efa840";
+            n.style.color = '#efa840';
+        }
+
+        function exportbox() {
+            // x.style.left = "50px";
+            // y.style.left = "450px";
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.left = "-1px";
+            z.style.backgroundColor = "#2196f3";
+            n.style.color = '#2196f3';
+        }
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-7').classList.add('activ');
+        }
+    </script>
+</body>
+</html>

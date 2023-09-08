@@ -1,0 +1,91 @@
+﻿@model IEnumerable<EquipmentApp.Models.Equipment>
+
+@{
+    ViewBag.Title = "IndexForCustomer";
+    
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    
+    <!-- Start myoffers-page -->
+    <div class="myoffers">
+        <div class="page-width">
+            <div class="top-offers">
+                <h4>العروض</h4>
+                <a href="Create">اضافة منتج</a>
+            </div>
+            <div class="offers-sell">
+                <div class="title-sell">عروض البيع</div>
+                @foreach (var item in Model)
+                {
+                    if (item.OfferType_Id == 1)
+                    {
+                        <div class="items">
+                            <img src="~/Uploads/@item.Image" alt="">
+                            <div class="info">
+                                <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                            <div class="buttons-left">
+                                <button type="button" class="details-button" onclick="window.location.href='Details?id=@item.Id'">
+                                    <i class="fas fa-info-circle"></i>
+                                    تفاصيل المنتج
+                                </button>
+                                @*<form action="CancelOffer?id=@item.Id" method="post" enctype="multipart/form-data">
+        <button type="submit" class="delete-button">
+            <i class="fas fa-trash"></i>
+            حـــذف
+        </button>
+        </form>*@
+                            <button type="submit" class="delete-button" onclick="window.location.href='Delete?id=@item.Id'">
+                                حـــذف
+                                <i class="fas fa-trash"></i>
+
+                            </button>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+            <div class="offers-rent">
+                <div class="title-rent">عروض الإيجار</div>
+                @foreach (var item in Model)
+                {
+                    if (item.OfferType_Id == 2)
+                    {
+                        <div class="items">
+                            <img src="~/Uploads/@item.Image" alt="">
+                            <div class="info">
+                                <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                            <div class="buttons-left">
+                                <button type="button" class="details-button" onclick="window.location.href='Details?id=@item.Id'">
+                                    <i class="fas fa-info-circle"></i>
+                                    تفاصيل المنتج
+                                </button>
+                                <button type="submit" class="delete-button" onclick="window.location.href='Delete?id=@item.Id'">
+                                    حـــذف
+                                    <i class="fas fa-trash"></i>
+
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <!-- End myoffers-page -->
+   
+    <script>
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-5').classList.add('activ');
+        }
+    </script>
+</body>
+</html>

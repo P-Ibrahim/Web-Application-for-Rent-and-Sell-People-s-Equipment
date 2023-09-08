@@ -1,0 +1,177 @@
+﻿
+@{
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <!-- Start Landing -->
+    <div class="landing">
+        <div class="container">
+            <div class="text">
+                <h1>اهـلاً بـك فـي معـدات . كوم</h1>
+                <p>
+                    منصة توفر لك المعدات والأدوات الجديدة والمستخدمة والتي تعرض للبيع أو الإستئجار وكل ما تحتاجه في اعمالك اليومية بكل سهولة ويسر ...
+                </p>
+                <div class="landing-buttons">
+
+                    @Html.ActionLink("دخول", "Login", "Users", new { @class = "login" })
+                    @Html.ActionLink("تسجيل", "Singup", "Users", new { @class = "signup" })
+                    
+                </div>
+            </div>
+            <div class="image">
+                <img src="~/imgs/landing.png" alt="">
+            </div>
+        </div>
+        <a href="#categories" class="go-down">
+            <i class="fas fa-angle-double-down fa-2x"></i>
+        </a>
+    </div>
+    <!-- End Landing -->
+    <!-- Start Categories -->
+    <div class="categories">
+        <h2 class="main-title" id="categories">فئاتنا</h2>
+        <div class="container" style="display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px">
+
+            <div class="box">
+                <a href="~/Equipments/Index?id=2">
+                    <img src="~/imgs/categories-elec.png" />
+                </a>
+                <p>كهربائية</p>
+            </div>
+            <div class="box">
+                <a href="~/Equipments/Index?id=3">
+                    <img src="~/imgs/categories-hand.png" />
+                </a>
+                <p>يدوية</p>
+            </div>
+
+            <div class="box">
+                <a href="~/Equipments/Index?id=4">
+                    <img src="~/imgs/categories-generator.png" />
+                </a>
+                <p>مولدات</p>
+            </div>
+            <div class="box">
+                <a href="~/Equipments/Index?id=5">
+                    <img src="~/imgs/categories-camera.png" />
+                </a>
+                <p>تصوير</p>
+            </div>
+            <div class="box">
+                <a href="~/Equipments/Index?id=6">
+                    <img src="~/imgs/categories-wedding01.png" />
+                </a>
+                <p>أفراح</p>
+            </div>
+            <div class="box">
+                <a href="~/Equipments/Index?id=7">
+                    <img src="~/imgs/categories-another.png" />
+                </a>
+                <p>أخرى</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Categories -->
+  
+    <!-- Start blue-card -->
+    <div class="blue-card">
+        <div class="containers">
+            <div class="card">
+                <p>هل انت صاحب معدات ؟</p>
+                <p>زيد من دخلك عن طريق عرض معداتك للإيجار</p>
+                <a href="~/Equipments/Create">أضف معدات</a>
+            </div>
+        </div>
+    </div>
+    <!-- End blue-card -->
+    <!-- Start how-work -->
+    <div class="how-work">
+        <h2 class="main-title">كيف يعمل ؟</h2>
+        <div class="container">
+            <div class="box">
+                <img src="~//imgs/how-01.svg" alt="">
+                <p class="number">1</p>
+                <p class="title">البحث عن معداتك</p>
+                <p class="text">العثور على المعدات بسرعة وسهولة</p>
+            </div>
+            <div class="box">
+                <img src="~//imgs/how-02.svg" alt="">
+                <p class="number">2</p>
+                <p class="title">إختر التاريخ</p>
+                <p class="text">إختر التاريخ واحجز المعدات</p>
+            </div>
+            <div class="box">
+                <img src="~//imgs/how-03.svg" alt="">
+                <p class="number">3</p>
+                <p class="title">الحصول على معداتك</p>
+                <p class="text">إستلام معداتك فوراً</p>
+            </div>
+        </div>
+    </div>
+    <!-- End how-work -->
+    <!-- Start way -->
+    <div class="why">
+        <h2 class="main-title">لماذا معداتي</h2>
+        <div class="container">
+            <div class="item">
+                <div class="circle">
+                    <p>1</p>
+                </div>
+                <p class="title">تأجير سريع</p>
+                <p class="text">كل ماعليك تسوي الطلب وتروح تستسلم بكل بساطة</p>
+            </div>
+            <div class="item">
+                <div class="circle">
+                    <p>2</p>
+                </div>
+                <p class="title">زيادة دخلك</p>
+                <p class="text">كل ماعليك هو وضع المعدات واستقبال الطلبات والباقي علينا</p>
+            </div>
+            <div class="item">
+                <div class="circle">
+                    <p>3</p>
+                </div>
+                <p class="title">خيارات أكثر</p>
+                <p class="text">خيارات متعددة حسب إحتياجاتك من ناحية المعدات </p>
+            </div>
+            <div class="item">
+                <div class="circle">
+                    <p>4</p>
+                </div>
+                <p class="title">مشاركة مجتمعية</p>
+                <p class="text">التعرف على ممارسين مثلك</p>
+            </div>
+        </div>
+    </div>
+    <!-- End why -->
+    
+    <!-- Start button-back -->
+    <div class="button-back" id="goup">
+        <a href="#"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <!-- End button-back -->
+    <script>
+            var buttonBack = document.getElementById('goup');
+            window.onscroll = function(){
+                'use strict';
+                if (window.pageYOffset >= 120) {
+                    buttonBack.style.display = 'block'
+                } else {
+                    buttonBack.style.display= 'none'
+                }
+        };
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-1').classList.add('activ');
+        }
+    </script>
+</body>
+</html>
+

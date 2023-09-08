@@ -1,0 +1,148 @@
+﻿@model IEnumerable<EquipmentApp.Models.Equipment>
+
+
+@{
+    ViewBag.Title = "Index";
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  
+    <!-- Start right-bar -->
+    <div class="right-bar">
+        <ul class="main-nav">
+
+
+            <li><a href="Index?id=2">كهربائية</a></li>
+            <li><a href="Index?id=3">يدوية</a></li>
+            <li><a href="Index?id=4">مولدات</a></li>
+            <li><a href="Index?id=5">تصوير</a></li>
+            <li><a href="Index?id=6">أفراح</a></li>
+            <li><a href="Index?id=7">أخرى</a></li>
+        </ul>
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn" onclick="selling()">بيع</button>
+            <button type="button" class="toggle-btn" onclick="rental()">إيجار</button>
+        </div>
+    </div>
+    <!-- End right-bar -->
+    <!-- Start products section -->
+    <!-- div for selling products  -->
+    <form action="Index" method="post" class="search-div">
+        <i class="fas fa-search" id="category-search"></i>
+        <input type="search" value="" placeholder="الإسم او الوصف" name="searchtext">
+        <input type="submit" value=" بحث">
+    </form>
+    <div id="selling" style="min-height: 114px;">
+        <div class="products">
+            @foreach (var item in Model)
+            {
+                if (item.OfferType_Id == 1)
+                {
+                    <div class="item">
+                        <img src="~/Uploads/@item.Image" alt="">
+                        <div class="line1">
+                            <div class="account">
+                                <img src="~/imgs/user-img1.jpg" />
+                                <p>@Html.DisplayFor(modelItem => item.User.UserName)</p>
+                            </div>
+                            <p class="price">@Html.DisplayFor(modelItem => item.Price)YR</p>
+                        </div>
+                        <div class="description">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="popup">
+                            <a href="Details?id=@item.Id">تفاصيل</a>
+                        </div>
+                    </div>
+                }
+
+            }
+
+
+        </div>
+    </div>
+    <!-- div for rental products -->
+    <div id="rental" style="display:none;min-height: 114px;">
+        <div class="products">
+            @foreach (var item in Model)
+            {
+                if (item.OfferType_Id == 2)
+                {
+                    <div class="item">
+                        <img src="~/Uploads/@item.Image" alt="">
+                        <div class="line1">
+                            <div class="account">
+                                <img src="~/imgs/user-img1.jpg" />
+                                
+                                <p>@Html.DisplayFor(modelItem => item.User.UserName)</p>
+                            </div>
+                            <p class="price"><span>@Html.DisplayFor(modelItem => item.Price)</span>ر.ي / اليوم</p>
+                        </div>
+                        <div class="description">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="popup">
+                            <a href="DetailsForRent?id=@item.Id">تفاصيل</a>
+                        </div>
+                    </div>
+                }
+
+            }
+
+        </div>
+    </div>
+    <!-- End products section -->
+    
+    <!-- Start button-back -->
+    <div class="button-back" id="goup">
+        <a href="#"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <!-- End button-back -->
+    <script>
+        var buttonBack = document.getElementById('goup');
+        window.onscroll = function () {
+            'use strict';
+            if (window.pageYOffset >= 120) {
+                buttonBack.style.display = 'block'
+            } else {
+                buttonBack.style.display = 'none'
+            }
+        };
+    </script>
+    <script>
+        var x = document.getElementById('selling');
+        var y = document.getElementById('rental');
+        var z = document.getElementById('btn');
+
+        function rental() {
+            // x.style.left = "-400px";
+            // y.style.left = "50px";
+            x.style.display = "none";
+            y.style.display = "block";
+            z.style.left = "151px";
+            z.style.backgroundColor = "#efa840";
+        }
+
+        function selling() {
+            // x.style.left = "50px";
+            // y.style.left = "450px";
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.left = "-1px";
+            z.style.backgroundColor = "#1b72b7";
+        }
+        const links = document.querySelectorAll('.right-bar .main-nav li ');
+        links.forEach(link => {
+            link.addEventListener('click',
+                function () {
+                    links.forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                });
+        });
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-2').classList.add('activ');
+        }
+    </script>
+</body>
+</html>

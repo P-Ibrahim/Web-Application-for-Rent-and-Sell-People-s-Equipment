@@ -1,0 +1,265 @@
+﻿@model EquipmentApp.Models.Equipment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moadat</title>
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+    <!-- normalize file -->
+
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    @*<link href="~/Content/Style1.css" rel="stylesheet" />*@
+
+
+    <!-- style file -->
+
+<link href="~/Content/MainStyle.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Start Header -->
+    <div class="header" id="header">
+        <div class="container">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <img src="~/imgs/logo.png" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <ul>
+                        <li id="megamenu-link">
+                            <i class="fas fa-caret-down"></i>
+                            <a href="#" target="_parent">@User.Identity.Name</a>
+                            <div class="mega-menu">
+                                <ul class="links">
+                                    @if (!User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="~/Users/profile?id=@User.Identity.Name">
+                                                <i class="far fa-user-circle"></i>
+                                                معلوماتي
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <a href="~/Users/Logout">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            تسجيل الخروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+
+            <ul class="main-nav">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("تقارير البيع", "AllReports", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("تقارير الإيجار", "AllReports", "RentalRequests")</li>
+                        <li>@Html.ActionLink("المسخدمين", "Index", "Users")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("طلبات البيع", "IndexForCustomer", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("طلبات الايجار", "IndexForCustomer", "RentalRequests")</li>
+                        <li>@Html.ActionLink("عروضي", "IndexForCustomer", "Equipments")</li>
+                    }
+
+
+
+                }
+                else
+                {
+                    <li>@Html.ActionLink("تسجيل", "Singup", "Users")</li>
+                    <li>@Html.ActionLink("دخول", "Login", "Users")</li>
+                }
+
+                <li class="activ">@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                <li>@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- End Header -->
+  
+    <!-- Start ItemDetails-Page -->
+<div class="itemdetails-page">
+    <div class="left-side">
+        <div class="box">
+            <div class="top-section">
+                <img src="~/Uploads/@Html.DisplayFor(model => model.Image)" alt="">
+                <div class="account-info">
+                    <img src="~/imgs/user-img1.jpg" />
+                    <div class="person-info">
+                        <p>@Html.DisplayFor(model => model.User.UserName)</p>
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i>
+                            @Html.DisplayFor(model => model.User.Address)
+                        </span>
+                    </div>
+                    <p>@Html.DisplayFor(model => model.Quantity) قطع/ ة</p>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>@Html.DisplayFor(model => model.Name)</h2>
+            <h4>التفاصيل:</h4>
+            <div class="detail">
+                @Html.DisplayFor(model => model.Description)
+            </div>
+            
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+    <button type="submit" class="offer-block-button" onclick="window.location.href='Delete?id=@Model.Id'">
+        حـــذف
+        <i class="fas fa-trash"></i>
+
+    </button>
+        }
+    </div>
+    @if (User.Identity.Name != Model.User.UserName)
+    {
+        <div class="right-side">
+           
+
+            <div class="box">
+                <h2><span>@Html.DisplayFor(model => model.Price)</span> ر.ي / يومياً</h2>
+                <form action="~/RentalRequests/Create?id=@Model.Id" method="post" enctype="multipart/form-data">
+                    @if (!string.IsNullOrEmpty(ViewBag.Message1))
+                    {
+                        <p style="color:red;text-align:center"> @ViewBag.Message1</p>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.Message2))
+                    {
+                        <p style="color:red;text-align:center"> @ViewBag.Message2</p>
+                    }
+                    <label for="">الكمية</label>
+                    <input type="number" min="1" name="number" id="quantity" value="1">
+                    <label for="">تاريخ الاستلام</label>
+                    <input type="date" id="start-date" min="" name="startDate" required>
+                    <label for="">تاريخ التسليم</label>
+                    <input type="date" id="end-date" min="" name="endDate" required>
+
+                    <div class="order-sumary">
+                        <div class="sumary-right">العدد المطلوب</div>
+                        <div class="sumary-left" id="quantity-display">0</div>
+                        <div class="sumary-right">عدد الايام</div>
+                        <div class="sumary-left" id="days">0 ايام</div>
+                        <div class="sumary-right">اجمالي المبلغ</div>
+                        <div class="sumary-left" id="price">0 ر.ي</div>
+                    </div>
+                    <input type="submit" class="booking-button" value="حـجــز">
+                </form>
+            </div>
+        </div>
+    }
+
+
+</div>
+    <!-- End ItemDetails-Page -->
+<script>
+   
+
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const priceElement = document.getElementById('price');
+    const daysElement = document.getElementById('days');
+    const quantityInput = document.getElementById('quantity');
+    const quantityDisplay = document.getElementById('quantity-display');
+    const pricePerUnit = @Html.DisplayFor(model => model.Price);
+
+    // Add an event listener to the end date input tag to calculate the difference
+    endDateInput.addEventListener('change', () => {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        const diffInDays = Math.max(0, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)));
+        
+        const quantity = quantityInput.value;
+        quantityDisplay.textContent = quantity;
+        const price = parseFloat(priceElement.textContent);
+        const totalPrice = diffInDays * quantity * pricePerUnit;
+        priceElement.textContent = totalPrice.toFixed(1) + " " + "ر.ي";
+        daysElement.textContent = diffInDays + " " + 'ايام';
+    });
+    quantityInput.addEventListener('change', () => {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+        const diffInDays = Math.max(0, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)));
+       
+        const quantity = quantityInput.value;
+        quantityDisplay.textContent = quantity;
+        if (startDateInput.value && endDateInput.value) {
+            const price = parseFloat(priceElement.textContent);
+            const totalPrice = diffInDays * quantity * pricePerUnit;
+            priceElement.textContent = totalPrice.toFixed(1) + " " + "ر.ي";
+            daysElement.textContent = diffInDays + " " + 'ايام';
+        }
+        else {
+            priceElement.textContent =  "0 " + "ر.ي";
+            daysElement.textContent =  "0 " + 'ايام';
+        }
+        
+    });
+
+    // Add event listener to the start date input tag to prevent selecting a date before today
+    startDateInput.addEventListener('change', () => {
+        const startDate = new Date(startDateInput.value);
+        const today = new Date();
+
+        if (startDate < today) {
+            startDateInput.value = today.toISOString().slice(0, 10);
+        }
+
+        // Automatically prevent selecting an end date that is before or the same as the start date
+        if (endDateInput.value) {
+            const endDate = new Date(endDateInput.value);
+            if (endDate <= startDate) {
+                endDateInput.value = new Date(startDate.getTime() + (24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+
+            }
+        }
+    });
+
+    // Add event listener to the end date input tag to prevent selecting a date before the start date
+    endDateInput.addEventListener('change', () => {
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
+
+        if (endDate <= startDate) {
+            endDateInput.value = new Date(startDate.getTime() + (24 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+            const quantity = quantityInput.value;
+            quantityDisplay.textContent = quantity;
+            const price = parseFloat(priceElement.textContent);
+            const totalPrice = quantity * pricePerUnit;
+            priceElement.textContent = totalPrice.toFixed(1) + " " + "ر.ي";
+            daysElement.textContent = 1 + " " + 'ايام';
+        }
+    });
+</script>
+</body>
+</html>

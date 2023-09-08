@@ -1,0 +1,161 @@
+﻿@model EquipmentApp.Models.Equipment
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> معدات.كوم : اضافة منتج</title>
+    <link rel="icon" type="image/png" href="~/imgs/logo-tab-bar2.png">
+    <!-- normalize file -->
+
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+
+    <!-- style file -->
+    
+    <link href="~/Content/MainStyle.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
+    <script src="javascript/main.js"></script>
+</head>
+<body>
+    <!-- Start Header -->
+    <div class="header" id="header">
+        <div class="container">
+            <div class="header-left">
+                <a href="#" class="logo">
+                    <img src="~/imgs/logo.png" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <ul>
+                        <li id="megamenu-link">
+                            <i class="fas fa-caret-down"></i>
+                            <a href="#" target="_parent">@User.Identity.Name</a>
+                            <div class="mega-menu">
+                                <ul class="links">
+                                    @if (!User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a href="~/Users/profile?id=@User.Identity.Name">
+                                                <i class="far fa-user-circle"></i>
+                                                معلوماتي
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <a href="~/Users/Logout">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            تسجيل الخروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+
+            <ul class="main-nav">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("تقارير البيع", "AllReports", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("تقارير الإيجار", "AllReports", "RentalRequests")</li>
+                        <li>@Html.ActionLink("المسخدمين", "Index", "Users")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("طلبات البيع", "IndexForCustomer", "SaleTransactions")</li>
+                        <li>@Html.ActionLink("طلبات الايجار", "IndexForCustomer", "RentalRequests")</li>
+                        <li class="activ">@Html.ActionLink("عروضي", "IndexForCustomer", "Equipments")</li>
+                    }
+
+
+
+                }
+                else
+                {
+                    <li>@Html.ActionLink("تسجيل", "Singup", "Users")</li>
+                    <li>@Html.ActionLink("دخول", "Login", "Users")</li>
+                }
+
+                <li>@Html.ActionLink("الفئات", "Index", "Equipments")</li>
+                <li>@Html.ActionLink("الصفحة الرئيسية", "home", "Users")</li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- End Header -->
+    <!-- Start AddItem-page -->
+    <div class="additem">
+        <img src="~/imgs/additem.png" alt="">
+        <div class="box-additem">
+            <p>اضافة منتج جديد</p>
+            <h6 style="margin: -10px 5px 15px; color: green;">* سعر ايجار المعدات يحسب باليوم</h6>
+            <form action="Create" method="post" enctype="multipart/form-data">
+
+                <div class="field">
+                    <label for="name-item">اسم المنتج</label>
+                    <input type="text" id="name-item" name="name" value="" required>
+                </div>
+                <div class="field">
+                    <label for="descr-item">التفاصيل</label>
+                    <input type="text" id="descr-item" name="description" value="" required>
+                </div>
+                <div class="field">
+                    <label for="price-item">السعر</label>
+                    <input type="text" id="price-item" name="price" value="" required>
+                </div>
+                <div class="field">
+                    <label for="quantity-item">الكمية</label>
+                    <input type="number" id="quantity-item" min="1" name="quantity" value="" required>
+                </div>
+                <div class="field">
+                    <label for="category-item">الفئة</label>
+                    <select name="category_id" id="category-item">
+                        <option value="7">اخرى</option>
+                        <option value="2">كهربائية</option>
+                        <option value="3">يدوية</option>
+                        <option value="4">مولدات</option>
+                        <option value="5">تصوير</option>
+                        <option value="6">افراح</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="type-item">نوع العرض</label>
+                    <select name="offertype_id" id="type-item">
+                        <option value="1">بيع</option>
+                        <option value="2">إيجار</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="image-item">الصورة</label>
+                    <input type="file" id="image-item" name="img" value="" required>
+                </div>
+                <input type="submit" value="إضافة">
+            </form>
+        </div>
+    </div>
+    <!-- End AddItem-page -->
+</body>
+</html>

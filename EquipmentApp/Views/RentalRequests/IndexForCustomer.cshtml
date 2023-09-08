@@ -1,0 +1,201 @@
+﻿@model IEnumerable<EquipmentApp.Models.RentalRequest>
+@{
+    ViewBag.Title = "IndexForCustomer";
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    
+    <!-- Start My-Order-page -->
+    <div class="order-page">
+        <div class="top-order">
+            <h2>طلبات الإيجار</h2>
+            <a href="report">
+                <i class="fas fa-chart-bar"></i>
+                التقارير
+            </a>
+            <div class="button-box button-order">
+                <div id="btn-order"></div>
+                <button type="button" class="toggle-btn" onclick="own()">الصادر</button>
+                <button type="button" class="toggle-btn" onclick="stor()">الوارد</button>
+            </div>
+        </div>
+        <div class="order-own" id="order-own">
+            <div class="page-width">
+                <div class="top-offers">
+                    <h4>الطلبات الصادرة</h4>
+
+                </div>
+                <div class="offers-sell">
+                    <div class="title-sell">مرسلة قيد التاكيد</div>
+                    @foreach (var item in Model)
+                    {
+                        if (item.RequestStatus == null && item.Receipt == null && item.User.UserName == User.Identity.Name)
+                        {
+                            <div class="items">
+                                <img src="~/Uploads/@item.Equipment.Image" alt="">
+                                <div class="info">
+                                    <h5>@Html.DisplayFor(modelItem => item.Equipment.Name)</h5>
+                                    <p>@Html.DisplayFor(modelItem => item.Equipment.Description)</p>
+                                </div>
+                                <div class="buttons-left">
+                                    <button type="button" class="details-button" onclick="window.location.href='Details?id=@item.Id'">
+                                        <i class="fas fa-info-circle"></i>
+                                        تفاصيل الطلب
+                                    </button>
+                                    <form action="DeleteConfirmed?id=@item.Id" method="post" enctype="multipart/form-data">
+                                        <button class="delete-button" type="submit">
+                                            <i class="fas fa-trash"></i>
+                                            حـــذف
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+                <div class="pay-confirm">
+                    <div class="title-confirm">تاكيد الدفع</div>
+                    @foreach (var item in Model)
+                    {
+                        if (item.RequestStatus == true && item.Receipt == null && item.User.UserName == User.Identity.Name)
+                        {
+                            <div class="items-confirm">
+                                <div class="top-item">
+                                    <img src="~/Uploads/@item.Equipment.Image" alt="">
+                                    <div class="info">
+                                        <h5>@Html.DisplayFor(modelItem => item.Equipment.Name)</h5>
+                                        <p>@Html.DisplayFor(modelItem => item.Equipment.Description)</p>
+                                    </div>
+                                    <div class="buttons-left">
+                                        <button type="button" onclick="window.location.href='Details?id=@item.Id'">
+                                            <i class="fas fa-info-circle"></i>
+                                            تفاصيل الطلب
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <div class="send-recipt">
+                                    * الرجاء ارسال ايصال الايداع
+
+                                    <form action="SendReceipt?id=@item.Id" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="receipt">
+                                        <input type="submit" value="ارسال">
+
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="order-stor" id="order-stor" style="display: none;">
+            <div class="page-width">
+                <div class="top-offers">
+                    <h4>الطلبات الواردة</h4>
+
+                </div>
+                <div class="offers-sell">
+                    <div class="title-sell"> في أنتظار التاكيد</div>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Receipt == null && item.Equipment.User.UserName == User.Identity.Name)
+                        {
+                            <div class="items">
+                                <img src="~/Uploads/@item.Equipment.Image" alt="">
+                                <div class="info">
+                                    <h5>@Html.DisplayFor(modelItem => item.Equipment.Name)</h5>
+                                    <p>@Html.DisplayFor(modelItem => item.Equipment.Description)</p>
+                                </div>
+                                <div class="buttons-left">
+                                    <button type="button" class="details-button" onclick="window.location.href='Details?id=@item.Id'">
+                                        <i class="fas fa-info-circle"></i>
+                                        تفاصيل الطلب
+                                    </button>
+                                    @if (item.RequestStatus == null)
+                                    {
+                                        <form action="AcceptOrder?id=@item.Id" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="accept-button">
+                                                <i class="fas fa-check-circle"></i>
+                                                قبول
+                                            </button>
+                                        </form>
+                                        <form action="RefuseOrder?id=@item.Id" method="post" enctype="multipart/form-data">
+                                            <button type="submit" class="delete-button">
+                                                <i class="fas fa-times-circle"></i>
+                                                رفض
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+                <div class="offers-rent">
+                    <div class="title-rent">موكدة الدفع</div>
+                    @foreach (var item in Model)
+                    {
+                        if (item.RequestStatus != null && item.Receipt != null && item.Equipment.User.UserName == User.Identity.Name)
+                        {
+                            <div class="items">
+                                <img src="~/Uploads/@item.Equipment.Image" alt="">
+                                <div class="info">
+                                    <h5>@Html.DisplayFor(modelItem => item.Equipment.Name)</h5>
+                                    <p>@Html.DisplayFor(modelItem => item.Equipment.Description)</p>
+                                </div>
+                                <div class="buttons-left">
+                                    <button type="button" class="details-button" onclick="window.location.href='order-details.html'">
+                                        <i class="fas fa-info-circle"></i>
+                                        تفاصيل الطلب
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End My-Order-page -->
+   
+    <script>
+        var x = document.getElementById('order-own');
+        var y = document.getElementById('order-stor');
+        var z = document.getElementById('btn-order');
+
+        function stor() {
+            // x.style.left = "-400px";
+            // y.style.left = "50px";
+            x.style.display = "none";
+            y.style.display = "block";
+            z.style.left = "144px";
+            // z.style.backgroundColor="#efa840"
+        }
+
+        function own() {
+            // x.style.left = "50px";
+            // y.style.left = "450px";
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.left = "-1px";
+            // z.style.backgroundColor="#1b72b7"
+
+        }
+        window.onload = function () {
+            document.querySelector('.header .main-nav .link-6').classList.add('activ');
+        }
+    </script>
+</body>
+</html>
+
